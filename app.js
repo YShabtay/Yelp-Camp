@@ -28,7 +28,7 @@ const reviewRoutes = require('./routes/reviews')
 
 const dbUrl = process.env.DB_URL||   'mongodb://127.0.0.1:27017/yelp-camp'
 // 
-process.env.DB_URL
+
 mongoose.connect(dbUrl)
     .then(() => {
         console.log("MONGO CONNECTION OPEN!!!")
@@ -52,11 +52,11 @@ app.use(mongoSanitize({
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-
+const secret = process.env.SECRET || 'holax'
 
 const store = new MongoStore({
     url: dbUrl,
-    secret: 'holax',
+    secret,
     touchAfter: 24 * 60 * 60
 });
 
@@ -64,10 +64,12 @@ store.on("error", function (e) {
     console.log('STORE ERROR', e)
 })
 
+
+
 const sessionConfig = {
     store,
     name: 'session',
-    secret: 'holax',
+    secret, 
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -165,7 +167,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-
-app.listen(3000, () => {
-    console.log('CONNECTION TO 3000 PORT')
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+    console.log(`CONNECTION TO ${port}`)
 })
