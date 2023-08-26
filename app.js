@@ -132,8 +132,8 @@ app.use(
 app.use(passport.session());
 app.use(passport.initialize());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser()) // שורת קוד שבעצם אומרת כיצד לאחסן במספר סידורי את המשתמשים בסשן
-passport.deserializeUser(User.deserializeUser()) // השורת הקוד הפוכה אומרת בעצם כיצד לא לסדר אותם מחוץ לסשן
+passport.serializeUser(User.serializeUser()) 
+passport.deserializeUser(User.deserializeUser()) 
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
